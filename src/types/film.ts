@@ -57,7 +57,9 @@ export const mapDtoToModelForFilm = (filmDto: FilmDto): Film => {
     id: filmDto.id,
     adult: filmDto.adult,
     backdropPath: filmDto.backdrop_path || undefined,
-    genres: filmDto.genre_ids.map(genresMap.get) as string[],
+    genres: filmDto.genre_ids.map((genreId) =>
+      genresMap.get(genreId)
+    ) as string[],
     originalLanguage: filmDto.original_language,
     originalTitle: filmDto.original_title,
     overview: filmDto.overview,

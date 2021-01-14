@@ -1,11 +1,17 @@
 import React from "react";
-import { SearchPage } from "./pages/SearchPage";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { SearchPage } from "./pages/SearchPage/SearchPage";
+import "./App.less";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <SearchPage />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="App">
+        <SearchPage />
+      </div>
+    </QueryClientProvider>
   );
 }
 
