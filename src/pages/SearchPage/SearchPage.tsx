@@ -1,34 +1,42 @@
 import { css } from "@emotion/css";
 import { Input, Typography } from "antd";
+import * as qs from "qs";
 import * as React from "react";
-import { useState } from "react";
 import { useInfiniteQuery } from "react-query";
+import { useHistory, useLocation } from "react-router-dom";
 import { searchFilm, SearchFilmQuery } from "../../api/searchFilm";
+import { ROUTES } from "../../App";
 import { Film } from "../../types/film";
 import { SearchResult } from "../../types/searchResult";
 import { ListOfFilms } from "./ListOfFilms";
 
-const { Search } = Input;
-
 export const SearchPage = () => {
-  const [filmName, setFilmName] = useState("");
+  const history = useHistory();
 
-  const searchFilmQuery: SearchFilmQuery = ["search-film", filmName];
+  const location = useLocation();
+  console.log(qs.parse(location.search));
+  const filmSearchPhrase =
+    new URLSearchParams(location.search).get("phrase") || "";
+
+  const searchFilmQuery: SearchFilmQuery = ["search-film", filmSearchPhrase];
   const {
     data,
     isLoading,
     isSuccess,
     hasNextPage,
-
     fetchNextPage,
   } = useInfiniteQuery<SearchResult>(searchFilmQuery, searchFilm, {
-    enabled: Boolean(filmName),
+    enabled: Boolean(filmSearchPhrase),
     getNextPageParam: (lastPage) =>
       lastPage.totalPages > lastPage.page ? true : undefined,
   });
 
   const handleClickFetchNextPage = () => {
     fetchNextPage();
+  };
+
+  const handleChangeFilmName = (phrase: string) => {
+    history.push(`${ROUTES.SEARCH}?phrase=${phrase}`);
   };
 
   const filmResults: Film[] = data?.pages.flatMap((page) => page.results) || [];
@@ -51,9 +59,9 @@ export const SearchPage = () => {
           <Typography.Title copyable={false} className={titleStyle}>
             FIND<span className={css({ color: "#78F078" })}>EVERY</span>FILM.PL
           </Typography.Title>
-          <Search
+          <Input.Search
             placeholder="Wpisz tytuł szukanego filmu"
-            onSearch={setFilmName}
+            onSearch={handleChangeFilmName}
             loading={isLoading}
             enterButton={true}
             size={"large"}
@@ -64,7 +72,7 @@ export const SearchPage = () => {
         <ListOfFilms
           currentPage={currentPage}
           filmResults={filmResults}
-          searchPhrase={filmName}
+          searchPhrase={filmSearchPhrase}
           totalResults={totalResults}
           fetchNextFilms={hasNextPage ? handleClickFetchNextPage : undefined}
         />

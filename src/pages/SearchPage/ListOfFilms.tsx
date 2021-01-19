@@ -39,7 +39,7 @@ export const ListOfFilms: React.FC<ListOfFilmsProps> = ({
       </p>
       <div className={gridLayoutStyle}>
         {filmResults.map((film) => (
-          <FilmResult film={film} />
+          <FilmResult film={film} key={film.id} />
         ))}
       </div>
       <div className={css({ display: "flex" })}>
