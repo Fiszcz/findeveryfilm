@@ -1,6 +1,6 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { FilmDetails } from "./pages/FilmDetails/FilmDetails";
+import { FilmDetailsPage } from "./pages/FilmDetails/FilmDetailsPage";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
 import "./App.less";
 import {
@@ -24,7 +24,11 @@ function App() {
         <Router>
           <Switch>
             <Route path={ROUTES.SEARCH} component={SearchPage} exact={true} />
-            <Route path={ROUTES.FILM} component={FilmDetails} exact={true} />
+            <Route
+              path={ROUTES.FILM}
+              component={FilmDetailsPage}
+              exact={true}
+            />
             <Redirect to={ROUTES.SEARCH} />
           </Switch>
         </Router>

@@ -30,7 +30,7 @@ export interface Film {
   voteAverage: number;
 }
 
-const genresMap = new Map<number, string>([
+export const genresMap = new Map<number, string>([
   [28, "Akcja"],
   [12, "Przygodowy"],
   [16, "Animacja"],
