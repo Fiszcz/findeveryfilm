@@ -2,76 +2,92 @@ import { css } from "@emotion/css";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { FilmDetails, genresMap } from "../../types/filmDetails";
-import { getFilmDetails, GetFilmDetailsQuery } from "../../api/getFilmDetails";
+import { FilmDetails } from "../../types/filmDetails";
+import { FilmActors } from "../../types/filmActors";
+import {
+  getFilmDetails,
+  getFilmActors,
+  GetFilmDetailsQuery,
+  GetFilmActorsQuery,
+} from "../../api/getFilmDetails";
 import { imageURL } from "../../consts/imageURL";
-import { ProductionCountry } from "../../types/filmDetails";
-import { relative } from "path";
+import { ListOfActors } from "./ListOfActors";
+
 export const FilmDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
+  let data, actorsData;
   const getFilmDetailsQuery: GetFilmDetailsQuery = ["get-film-details", id];
-  const { data, isLoading, isSuccess } = useQuery<FilmDetails>(
-    getFilmDetailsQuery,
-    getFilmDetails,
-    { enabled: Boolean(id) }
-  );
-  console.log("data", data);
+  const details = useQuery<FilmDetails>(getFilmDetailsQuery, getFilmDetails, {
+    enabled: Boolean(id),
+  });
 
-  const mapCountries = (countries: ProductionCountry[]) => {
-    let str = "";
-    countries.forEach((country, index) => {
-      if (index === 0) str += country.iso_3166_1;
-      else str += ", " + country.iso_3166_1;
-    });
-  };
+  const getFilmActorsQuery: GetFilmActorsQuery = ["get-film-actors", id];
+  const actors = useQuery<FilmActors>(getFilmActorsQuery, getFilmActors, {
+    enabled: Boolean(id),
+  });
+
+  if (details.isSuccess) {
+    data = details.data;
+  }
+
+  if (actors.isSuccess) {
+    actorsData = actors.data;
+  }
 
   return (
     <>
-      <div className={filmDetails}>
-        <img
-          className={filmDetailsImg}
-          src={imageURL + data?.backdrop_path}
-          alt={data?.title}
-        />
-        <div className={imageGradient}></div>
-        <div className={filmDetailsContent}>
-          <div className={columnLeft}>
-            <img
-              className={columnLeftImg}
-              src={imageURL + data?.poster_path}
-              alt={data?.title}
-            />
-          </div>
-          <div className={columnRight}>
-            <h1 className={title}>{data?.title}</h1>
-            <h2 className={colorWhite}>{data?.tagline}</h2>
-            <p>
-              {data?.release_date}{" "}
-              <span>
-                (
-                {data?.production_countries?.map(
-                  (country, index) => (index ? ", " : "") + country.iso_3166_1
-                )}
-                ){" "}
-              </span>
-            </p>
-            <p>
-              Categories:{" "}
-              {data?.genres?.map(
-                (genre, index) => (index ? ", " : "") + genre.name
-              )}
-            </p>
-            <p className={description}>{data?.overview}</p>
-            <div className={ratingSection}>
-              <div className={rating}>{data?.vote_average}</div>
-              <span className={ratingCount}>
-                based on {data?.vote_count} ratings
-              </span>
+      {details.isSuccess && data && (
+        <div className={filmDetails}>
+          <img
+            className={filmDetailsImg}
+            src={imageURL + data?.backdrop_path}
+            alt={data?.title}
+          />
+          <div className={imageGradient}></div>
+          <div className={filmDetailsContent}>
+            <div className={columnLeft}>
+              <img
+                className={columnLeftImg}
+                src={imageURL + data?.poster_path}
+                alt={data?.title}
+              />
             </div>
+            <div className={columnRight}>
+              <h1 className={title}>{data?.title}</h1>
+              <h2 className={colorWhite}>{data?.tagline}</h2>
+              <p>
+                {data?.release_date}{" "}
+                <span>
+                  (
+                  {data?.production_countries?.map(
+                    (country, index) => (index ? ", " : "") + country.iso_3166_1
+                  )}
+                  ){" "}
+                </span>
+              </p>
+              <p className={time}>Czas trwania: {data?.runtime} min</p>
+              <p>
+                Kategorie:{" "}
+                {data?.genres?.map(
+                  (genre, index) => (index ? ", " : "") + genre.name
+                )}
+              </p>
+              <p className={description}>{data?.overview}</p>
+              <div className={ratingSection}>
+                <div className={rating}>{data?.vote_average}</div>
+                <span className={ratingCount}>
+                  na podstawie {data?.vote_count} ocen
+                </span>
+              </div>
+            </div>
+            {actors.isSuccess && actorsData && (
+              <div className={actorsSection}>
+                <ListOfActors actorsList={actorsData.cast} />
+              </div>
+            )}
           </div>
-          <div className={actorsSection}>LIST OF ACTORS HERE</div>
         </div>
-      </div>
+      )}
     </>
   );
 };
@@ -84,7 +100,7 @@ const filmDetails = css({
 const filmDetailsImg = css({
   width: "100%",
   objectFit: "cover",
-  minHeight: "600px",
+  height: "100vh",
 });
 
 const imageGradient = css({
@@ -105,11 +121,11 @@ const filmDetailsContent = css({
   flexWrap: "nowrap",
   justifyContent: "space-between",
   transform: "translateX(-50%)",
-  width: "calc(100% - 180px)",
+  width: "calc(100% - 280px)",
 });
 
 const columnLeft = css({
-  flexBasis: "30%",
+  flexBasis: "35%",
 });
 
 const columnLeftImg = css({
@@ -118,7 +134,7 @@ const columnLeftImg = css({
 });
 
 const columnRight = css({
-  flexBasis: "65%",
+  flexBasis: "60%",
 });
 
 const colorWhite = css({
@@ -132,6 +148,10 @@ const title = css({
 
 const description = css({
   fontSize: "1.4em",
+});
+
+const time = css({
+  textAlign: "right",
 });
 
 const ratingSection = css({
@@ -159,6 +179,27 @@ const ratingCount = css({
 
 const actorsSection = css({
   position: "absolute",
-  top: "calc(100% + 30px)",
+  top: "calc(100% + 80px)",
   left: "0",
+});
+
+const centerButton = css({
+  display: "flex",
+});
+
+const showMoreButton = css({
+  fontWeight: 500,
+  lineHeight: 1.25,
+  border: "none",
+  color: "white",
+  margin: "50px auto 50px",
+  padding: "10px 32px",
+  borderRadius: 20,
+  cursor: "pointer",
+  outline: "none",
+  fontSize: "16px",
+  backgroundColor: "#060a14",
+  "&:hover": {
+    border: "2px solid #78f078",
+  },
 });

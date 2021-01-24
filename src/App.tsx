@@ -1,6 +1,7 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { FilmDetailsPage } from "./pages/FilmDetails/FilmDetailsPage";
+import { ActorDetailsPage } from "./pages/ActorDetails/ActorDetailsPage";
 import { SearchPage } from "./pages/SearchPage/SearchPage";
 import "./App.less";
 import {
@@ -15,6 +16,7 @@ const queryClient = new QueryClient();
 export enum ROUTES {
   SEARCH = "/search",
   FILM = "/film/:id",
+  ACTOR = "/actor/:name",
 }
 
 function App() {
@@ -27,6 +29,11 @@ function App() {
             <Route
               path={ROUTES.FILM}
               component={FilmDetailsPage}
+              exact={true}
+            />
+            <Route
+              path={ROUTES.ACTOR}
+              component={ActorDetailsPage}
               exact={true}
             />
             <Redirect to={ROUTES.SEARCH} />
