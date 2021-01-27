@@ -39,17 +39,23 @@ export const FilmDetailsPage = () => {
     <>
       {details.isSuccess && data && (
         <div className={filmDetails}>
-          <img
-            className={filmDetailsImg}
-            src={imageURL + data?.backdrop_path}
-            alt={data?.title}
-          />
+          {data?.backdrop_path && (
+            <img
+              className={filmDetailsImg}
+              src={imageURL + data?.backdrop_path}
+              alt={data?.title}
+            />
+          )}
           <div className={imageGradient}></div>
           <div className={filmDetailsContent}>
             <div className={columnLeft}>
               <img
                 className={columnLeftImg}
-                src={imageURL + data?.poster_path}
+                src={
+                  data?.poster_path
+                    ? imageURL + data?.poster_path
+                    : "../assets/filmPlaceholder.png"
+                }
                 alt={data?.title}
               />
             </div>
