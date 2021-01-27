@@ -13,11 +13,13 @@ export const ActorResult: React.FC<ActorResultProps> = ({ actor }) => {
   return (
     <div className={hoverScale}>
       <Link to={generatePath(ROUTES.ACTOR, { name: actor.name })}>
-        <img
-          src={imageURL + actor.profile_path}
-          className={actorImage}
-          alt={actor.original_name}
-        />
+        {actor.profile_path &&
+          <img
+            src={imageURL + actor.profile_path}
+            className={actorImage}
+            alt={actor.name}
+          />
+        }
         <div className={actorDescription}>{actor.name}</div>
       </Link>
     </div>
