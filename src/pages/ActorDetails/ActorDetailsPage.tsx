@@ -50,13 +50,13 @@ export const ActorDetailsPage = () => {
                 src={
                   data.person.image?.medium
                     ? data?.person.image.medium
-                    : "./assets/"
+                    : "../assets/personPlaceholder.png"
                 }
                 alt={data?.person.name}
               />
             </div>
             <div className={columnRight}>
-              <h1 className={title}>{data?.person.name}</h1>
+              <h1 className={title}>{name}</h1>
               <h2 className={colorWhite}>Personal data</h2>
               {data.person.gender && (
                 <p className={dataBox}>

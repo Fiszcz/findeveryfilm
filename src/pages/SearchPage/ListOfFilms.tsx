@@ -31,11 +31,11 @@ export const ListOfFilms: React.FC<ListOfFilmsProps> = ({
   return (
     <div className={listOfFilmsStyle} ref={listRef}>
       <h2 className={headerOfResults}>
-        Filmy z <span className={phraseInHeaderStyle}>'{searchPhrase}'</span> w
-        nazwie
+        Films with <span className={phraseInHeaderStyle}>'{searchPhrase}'</span>{" "}
+        in name
       </h2>
       <p className={foundNumberStyle}>
-        Znaleziono {totalResults} {totalResults === 1 ? "film" : "filmów"}
+        Found {totalResults} {totalResults === 1 ? "result" : "results"}
       </p>
       <div className={gridLayoutStyle}>
         {filmResults.map((film) => (
@@ -49,7 +49,7 @@ export const ListOfFilms: React.FC<ListOfFilmsProps> = ({
             onClick={fetchNextFilms}
             className={showMoreButtonStyle}
           >
-            Pokaż więcej
+            Load more
           </div>
         )}
       </div>

@@ -18,15 +18,15 @@ export interface Country {
 }
 
 export interface Person {
-  id: number;
-  url: string;
-  name: string;
-  country: Country;
-  birthday: Date;
-  deathday: Date;
-  gender: string;
-  image: Image;
-  _links: Links;
+  id?: number;
+  url?: string;
+  name?: string;
+  country?: Country;
+  birthday?: Date;
+  deathday?: Date;
+  gender?: string;
+  image?: Image;
+  _links?: Links;
 }
 
 export interface Actor {

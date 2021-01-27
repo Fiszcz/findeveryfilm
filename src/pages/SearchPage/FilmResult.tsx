@@ -15,7 +15,11 @@ export const FilmResult: React.FC<FilmResultProps> = ({ film }) => {
     <Link to={generatePath(ROUTES.FILM, { id: film.id })}>
       <div>
         <img
-          src={imageURL + film.posterPath}
+          src={
+            film.posterPath
+              ? imageURL + film.posterPath
+              : "/assets/filmPlaceholder.png"
+          }
           className={posterImageStyle}
           alt={film.title}
         />

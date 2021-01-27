@@ -70,10 +70,10 @@ export const FilmDetailsPage = () => {
                 </p>
               )}
               {data.runtime && (
-                <p className={time}>Czas trwania: {data?.runtime} min</p>
+                <p className={time}>Dutation: {data?.runtime} min</p>
               )}
               <p>
-                Kategorie:{" "}
+                Categories:{" "}
                 {data?.genres?.map(
                   (genre, index) => (index ? ", " : "") + genre.name
                 )}
@@ -82,7 +82,7 @@ export const FilmDetailsPage = () => {
               <div className={ratingSection}>
                 <div className={rating}>{data?.vote_average}</div>
                 <span className={ratingCount}>
-                  na podstawie {data?.vote_count} ocen
+                  based on {data?.vote_count} reviews
                 </span>
               </div>
             </div>
