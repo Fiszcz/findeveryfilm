@@ -1,6 +1,5 @@
 import { css } from "@emotion/css";
 import { Input, Typography } from "antd";
-import * as qs from "qs";
 import * as React from "react";
 import { useInfiniteQuery } from "react-query";
 import { useHistory, useLocation } from "react-router-dom";
@@ -14,7 +13,6 @@ export const SearchPage = () => {
   const history = useHistory();
 
   const location = useLocation();
-  console.log(qs.parse(location.search));
   const filmSearchPhrase =
     new URLSearchParams(location.search).get("phrase") || "";
 

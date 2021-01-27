@@ -36,6 +36,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://findeveryfilm-env.eba-z2t45vkk.us-east-1.elasticbeanstalk.com",
   "eslintConfig": {
     "extends": [
       "react-app",
