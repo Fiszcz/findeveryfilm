@@ -12,12 +12,20 @@ interface ActorResultProps {
 export const ActorResult: React.FC<ActorResultProps> = ({ actor }) => {
   return (
     <div className={hoverScale}>
-      <Link to={generatePath(ROUTES.ACTOR, { name: actor.original_name })}>
-        <img
-          src={imageURL + actor.profile_path}
-          className={actorImage}
-          alt={actor.original_name}
-        />
+      <Link to={generatePath(ROUTES.ACTOR, { name: actor.name })}>
+        {actor.profile_path ? (
+          <img
+            src={imageURL + actor.profile_path}
+            className={actorImage}
+            alt={actor.name}
+          />
+        ) : (
+          <img
+            src={"../assets/personPlaceholder.png"}
+            className={actorImage}
+            alt="Person Placeholder"
+          />
+        )}
         <div className={actorDescription}>{actor.name}</div>
       </Link>
     </div>
