@@ -17,6 +17,7 @@
     "antd": "^4.10.2",
     "axios": "^0.21.1",
     "craco-less": "^1.17.1",
+    "date-fns": "^2.16.1",
     "husky": "^4.3.7",
     "lint-staged": "^10.5.3",
     "miragejs": "^0.1.41",

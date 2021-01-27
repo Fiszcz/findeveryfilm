@@ -12,7 +12,7 @@ interface ActorResultProps {
 export const ActorResult: React.FC<ActorResultProps> = ({ actor }) => {
   return (
     <div className={hoverScale}>
-      <Link to={generatePath(ROUTES.ACTOR, { name: actor.original_name })}>
+      <Link to={generatePath(ROUTES.ACTOR, { name: actor.name })}>
         <img
           src={imageURL + actor.profile_path}
           className={actorImage}

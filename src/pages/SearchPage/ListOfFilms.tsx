@@ -72,6 +72,7 @@ const listOfFilmsStyle = css({
   position: "absolute",
   marginLeft: "10%",
   marginTop: -150,
+  zIndex: 2,
 });
 
 const foundNumberStyle = css({
@@ -82,7 +83,8 @@ const foundNumberStyle = css({
 
 const gridLayoutStyle = css({
   display: "grid",
-  gridTemplateColumns: "20% 20% 20% 20% 20%",
+  gridTemplateColumns: "18% 18% 18% 18% 18%",
+  columnGap: "2.5%",
   rowGap: 70,
 });
 

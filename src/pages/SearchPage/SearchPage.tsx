@@ -26,7 +26,7 @@ export const SearchPage = () => {
   } = useInfiniteQuery<SearchResult>(searchFilmQuery, searchFilm, {
     enabled: Boolean(filmSearchPhrase),
     getNextPageParam: (lastPage) =>
-      lastPage.totalPages > lastPage.page ? true : undefined,
+      lastPage.totalPages > lastPage.page ? lastPage.page + 1 : undefined,
   });
 
   const handleClickFetchNextPage = () => {
@@ -49,32 +49,33 @@ export const SearchPage = () => {
           src={"./assets/main1.jpg"}
           alt={"main"}
         />
-      </div>
-      <div className={css({ position: "absolute", width: "100%", top: 420 })}>
-        <div
-          className={css({ width: "80%", textAlign: "left", margin: "auto" })}
-        >
-          <Typography.Title copyable={false} className={titleStyle}>
-            FIND<span className={css({ color: "#78F078" })}>EVERY</span>FILM.PL
-          </Typography.Title>
-          <Input.Search
-            placeholder="Wpisz tytuł szukanego filmu"
-            onSearch={handleChangeFilmName}
-            loading={isLoading}
-            enterButton={true}
-            size={"large"}
-          />
+        <div className={searchBar}>
+          <div
+            className={css({ width: "80%", textAlign: "left", margin: "auto" })}
+          >
+            <Typography.Title copyable={false} className={titleStyle}>
+              FIND<span className={css({ color: "#78F078" })}>EVERY</span>
+              FILM.PL
+            </Typography.Title>
+            <Input.Search
+              placeholder="Wpisz tytuł szukanego filmu"
+              onSearch={handleChangeFilmName}
+              loading={isLoading}
+              enterButton={true}
+              size={"large"}
+            />
+          </div>
         </div>
+        {isSuccess && data?.pages && (
+          <ListOfFilms
+            currentPage={currentPage}
+            filmResults={filmResults}
+            searchPhrase={filmSearchPhrase}
+            totalResults={totalResults}
+            fetchNextFilms={hasNextPage ? handleClickFetchNextPage : undefined}
+          />
+        )}
       </div>
-      {isSuccess && data?.pages && (
-        <ListOfFilms
-          currentPage={currentPage}
-          filmResults={filmResults}
-          searchPhrase={filmSearchPhrase}
-          totalResults={totalResults}
-          fetchNextFilms={hasNextPage ? handleClickFetchNextPage : undefined}
-        />
-      )}
     </>
   );
 };
@@ -88,6 +89,8 @@ const mainImageStyle = css({
 });
 
 const gradientStyle = css({
+  position: "absolute",
+  width: "100%",
   "&:after": {
     display: "block",
     position: "relative",
@@ -97,4 +100,12 @@ const gradientStyle = css({
     width: "100%",
     content: '""',
   },
+});
+
+const searchBar = css({
+  position: "absolute",
+  width: "100%",
+  top: "50%",
+  transform: "translateY(-50%)",
+  zIndex: 1,
 });

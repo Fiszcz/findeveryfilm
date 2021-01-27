@@ -12,6 +12,7 @@ import {
 } from "../../api/getFilmDetails";
 import { imageURL } from "../../consts/imageURL";
 import { ListOfActors } from "./ListOfActors";
+import { format } from "date-fns";
 
 export const FilmDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -55,17 +56,22 @@ export const FilmDetailsPage = () => {
             <div className={columnRight}>
               <h1 className={title}>{data?.title}</h1>
               <h2 className={colorWhite}>{data?.tagline}</h2>
-              <p>
-                {data?.release_date}{" "}
-                <span>
-                  (
-                  {data?.production_countries?.map(
-                    (country, index) => (index ? ", " : "") + country.iso_3166_1
-                  )}
-                  ){" "}
-                </span>
-              </p>
-              <p className={time}>Czas trwania: {data?.runtime} min</p>
+              {data.release_date && (
+                <p>
+                  {format(Date.parse(data?.release_date), "dd-MM-yyyy")}{" "}
+                  <span>
+                    (
+                    {data?.production_countries?.map(
+                      (country, index) =>
+                        (index ? ", " : "") + country.iso_3166_1
+                    )}
+                    ){" "}
+                  </span>
+                </p>
+              )}
+              {data.runtime && (
+                <p className={time}>Czas trwania: {data?.runtime} min</p>
+              )}
               <p>
                 Kategorie:{" "}
                 {data?.genres?.map(

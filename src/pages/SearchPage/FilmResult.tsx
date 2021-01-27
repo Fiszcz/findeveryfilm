@@ -28,8 +28,8 @@ export const FilmResult: React.FC<FilmResultProps> = ({ film }) => {
 };
 
 const posterImageStyle = css({
-  width: 212,
-  height: 366,
+  width: "100%",
+  height: "auto",
   borderRadius: 4,
   display: "block",
 });
