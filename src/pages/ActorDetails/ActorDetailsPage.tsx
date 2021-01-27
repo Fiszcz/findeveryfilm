@@ -7,7 +7,7 @@ import {
 } from "../../api/getActorDetails";
 import { ActorDetails, ActorsDetails } from "../../types/actorDetails";
 import { css } from "@emotion/css";
-const moment = require("moment");
+import { differenceInYears, format } from "date-fns";
 
 export const ActorDetailsPage = () => {
   const { name } = useParams<{ name: string }>();
@@ -61,20 +61,23 @@ export const ActorDetailsPage = () => {
               <p className={dataBox}>
                 Wiek:&nbsp;
                 <span className={dataValue}>
-                  {moment().diff(data?.person.birthday, "years")}
+                  {differenceInYears(
+                    new Date(),
+                    new Date(data?.person.birthday)
+                  )}
                 </span>
               </p>
               <p className={dataBox}>
                 Data urodzenia:&nbsp;
                 <span className={dataValue}>
-                  {moment(data?.person.birthday).format("DD-MM-YYYY")}
+                  {format(new Date(data?.person.birthday), "dd-MM-yyyy")}
                 </span>
               </p>
               {data?.person?.deathday ? (
                 <p className={dataBox}>
                   Data śmierci:&nbsp;
                   <span className={dataValue}>
-                    {moment(data?.person.deathday).format("DD-MM-YYYY")}
+                    {format(data?.person.deathday, "dd-MM-yyyy")}
                   </span>
                 </p>
               ) : null}
