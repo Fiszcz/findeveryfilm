@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import "antd/dist/antd.css";
-import { backendCreateServer } from "./mocked_backend/serwer";
+// import { backendCreateServer } from "./mocked_backend/serwer";
 
-if (process.env.NODE_ENV === "development") {
-  backendCreateServer();
-}
+// if (process.env.NODE_ENV === "development") {
+//   backendCreateServer();
+// }
 
 ReactDOM.render(
   <React.StrictMode>

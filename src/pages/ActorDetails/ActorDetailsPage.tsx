@@ -7,7 +7,7 @@ import {
 } from "../../api/getActorDetails";
 import { ActorDetails, ActorsDetails } from "../../types/actorDetails";
 import { css } from "@emotion/css";
-const moment = require("moment");
+import { format, differenceInYears } from "date-fns";
 
 export const ActorDetailsPage = () => {
   const { name } = useParams<{ name: string }>();
@@ -35,53 +35,68 @@ export const ActorDetailsPage = () => {
     <>
       {details.isSuccess && data && (
         <div className={actorDetails}>
-          <img
-            className={actorDetailsImg}
-            src={data?.person.image.medium}
-            alt={data?.person.name}
-          />
+          {data.person.image?.medium && (
+            <img
+              className={actorDetailsImg}
+              src={data?.person.image.medium}
+              alt={data?.person.name}
+            />
+          )}
           <div className={imageGradient}></div>
           <div className={actorDetailsContent}>
             <div className={columnLeft}>
               <img
                 className={columnLeftImg}
-                src={data?.person.image.medium}
+                src={
+                  data.person.image?.medium
+                    ? data?.person.image.medium
+                    : "./assets/"
+                }
                 alt={data?.person.name}
               />
             </div>
             <div className={columnRight}>
               <h1 className={title}>{data?.person.name}</h1>
-              <h2 className={colorWhite}>Dane osobowe</h2>
-              <p className={dataBox}>
-                Płeć:&nbsp;
-                <span className={dataValue}>
-                  {data?.person.gender === "Female" ? "Kobieta" : "Mężczyzna"}
-                </span>
-              </p>
-              <p className={dataBox}>
-                Wiek:&nbsp;
-                <span className={dataValue}>
-                  {moment().diff(data?.person.birthday, "years")}
-                </span>
-              </p>
-              <p className={dataBox}>
-                Data urodzenia:&nbsp;
-                <span className={dataValue}>
-                  {moment(data?.person.birthday).format("DD-MM-YYYY")}
-                </span>
-              </p>
-              {data?.person?.deathday ? (
+              <h2 className={colorWhite}>Personal data</h2>
+              {data.person.gender && (
                 <p className={dataBox}>
-                  Data śmierci:&nbsp;
+                  Gender:&nbsp;
+                  <span className={dataValue}>{data?.person.gender}</span>
+                </p>
+              )}
+              {data.person.birthday && (
+                <p className={dataBox}>
+                  Age:&nbsp;
                   <span className={dataValue}>
-                    {moment(data?.person.deathday).format("DD-MM-YYYY")}
+                    {differenceInYears(
+                      new Date(),
+                      new Date(data?.person.birthday)
+                    )}
+                  </span>
+                </p>
+              )}
+              {data.person.birthday && (
+                <p className={dataBox}>
+                  Date of birth:&nbsp;
+                  <span className={dataValue}>
+                    {format(new Date(data?.person.birthday), "dd-MM-yyyy")}
+                  </span>
+                </p>
+              )}
+              {data.person?.deathday ? (
+                <p className={dataBox}>
+                  Date of death:&nbsp;
+                  <span className={dataValue}>
+                    {format(new Date(data?.person.deathday), "dd-MM-yyyy")}
                   </span>
                 </p>
               ) : null}
-              <p className={dataBox}>
-                Miejsce urodzenia:&nbsp;
-                <span className={dataValue}>{data?.person.country.name}</span>
-              </p>
+              {data.person.country && (
+                <p className={dataBox}>
+                  Place of birth:&nbsp;
+                  <span className={dataValue}>{data?.person.country.name}</span>
+                </p>
+              )}
             </div>
           </div>
         </div>
