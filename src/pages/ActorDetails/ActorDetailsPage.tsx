@@ -69,7 +69,9 @@ export const ActorDetailsPage = () => {
                   Age:&nbsp;
                   <span className={dataValue}>
                     {differenceInYears(
-                      new Date(),
+                      data?.person.deathday
+                        ? new Date(data?.person.deathday)
+                        : new Date(),
                       new Date(data?.person.birthday)
                     )}
                   </span>
