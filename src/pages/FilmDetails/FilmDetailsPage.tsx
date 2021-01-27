@@ -39,17 +39,23 @@ export const FilmDetailsPage = () => {
     <>
       {details.isSuccess && data && (
         <div className={filmDetails}>
-          <img
-            className={filmDetailsImg}
-            src={imageURL + data?.backdrop_path}
-            alt={data?.title}
-          />
+          {data?.backdrop_path && (
+            <img
+              className={filmDetailsImg}
+              src={imageURL + data?.backdrop_path}
+              alt={data?.title}
+            />
+          )}
           <div className={imageGradient}></div>
           <div className={filmDetailsContent}>
             <div className={columnLeft}>
               <img
                 className={columnLeftImg}
-                src={imageURL + data?.poster_path}
+                src={
+                  data?.poster_path
+                    ? imageURL + data?.poster_path
+                    : "../assets/filmPlaceholder.png"
+                }
                 alt={data?.title}
               />
             </div>
@@ -70,10 +76,10 @@ export const FilmDetailsPage = () => {
                 </p>
               )}
               {data.runtime && (
-                <p className={time}>Czas trwania: {data?.runtime} min</p>
+                <p className={time}>Dutation: {data?.runtime} min</p>
               )}
               <p>
-                Kategorie:{" "}
+                Categories:{" "}
                 {data?.genres?.map(
                   (genre, index) => (index ? ", " : "") + genre.name
                 )}
@@ -82,7 +88,7 @@ export const FilmDetailsPage = () => {
               <div className={ratingSection}>
                 <div className={rating}>{data?.vote_average}</div>
                 <span className={ratingCount}>
-                  na podstawie {data?.vote_count} ocen
+                  based on {data?.vote_count} reviews
                 </span>
               </div>
             </div>

@@ -58,7 +58,7 @@ export const SearchPage = () => {
               FILM.PL
             </Typography.Title>
             <Input.Search
-              placeholder="Wpisz tytuł szukanego filmu"
+              placeholder="Search for film name"
               onSearch={handleChangeFilmName}
               loading={isLoading}
               enterButton={true}
